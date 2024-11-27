@@ -14,6 +14,7 @@ import type { Locale } from "./lang/locale-type.ts";
 function i18n(app: App, locale?: Locale, messages?: Record<string, any>) {
   locale = locale || "zh-CN";
   dayjs.locale(mapLocale[locale]);
+  // dayjs.locale("zh-cn");
 
   const mergeMessages = Object.assign(
     {

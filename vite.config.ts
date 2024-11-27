@@ -3,7 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import Components from "unplugin-vue-components/vite";
 import { AntDesignVueResolver } from "unplugin-vue-components/resolvers";
-import AutoImport from "unplugin-auto-import/vite";
+// import AutoImport from "unplugin-auto-import/vite";
 
 import Inspect from "vite-plugin-inspect";
 import legacy from "@vitejs/plugin-legacy";
@@ -11,7 +11,7 @@ import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import { fileURLToPath, URL } from "node:url";
 import path from "path";
 
-import Unocss from "unocss/vite";
+// import Unocss from "unocss/vite";
 import {
   presetAttributify,
   presetIcons,
@@ -29,10 +29,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const isProd = ["production", "staging", "testing"].includes(
     viteEnv.VITE_NODE_ENV
   );
-  console.log("sub-vue3-APP_BASE_ROUTER", viteEnv);
+  console.log("sub-vue3-VITE_BASE_URL", viteEnv);
 
   return {
-    base: `${viteEnv.APP_BASE_ROUTER}`, // subvue3/
+    base: `${viteEnv.VITE_BASE_URL}`, // subvue3/
     //静态资源服务的文件夹
     publicDir: "public",
     // 环境变量设置所在文件夹路径
@@ -100,17 +100,17 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }),
       // https://github.com/antfu/unocss
       // see unocss.config.ts for config
-      Unocss({
-        presets: [
-          presetUno(),
-          presetAttributify(),
-          presetIcons({
-            scale: 1.2,
-            warn: true,
-          }),
-        ],
-        transformers: [transformerDirectives(), transformerVariantGroup()],
-      }),
+      // Unocss({
+      //   presets: [
+      //     presetUno(),
+      //     presetAttributify(),
+      //     presetIcons({
+      //       scale: 1.2,
+      //       warn: true,
+      //     }),
+      //   ],
+      //   transformers: [transformerDirectives(), transformerVariantGroup()],
+      // }),
       Inspect(),
     ],
     json: {
@@ -152,7 +152,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           {
             /**
              * postcss给含有中文的scss 加了个@charset:UTF-8;
-             * element-plus的index.css文件包含@charset:UTF-8
              * 在组合css时@charset的位置并不是在头部(或最前面)，同时本地scss如果有中文也会自动添加@charset:UTF-8
              * 因此build时就会warning提示错误了
              **/

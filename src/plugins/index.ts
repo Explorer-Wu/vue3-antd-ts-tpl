@@ -52,9 +52,8 @@ export function useGlobalPlugins(
 ) {
   // (app: any, store: any, router: any)
   // const files = import.meta.glob('./*.ts'); // 为过动态导入，构建时，会分离为独立的 chunk
-  const files: Record<string, any> = import.meta.glob("./*.ts", {
-    eager: true,
-  }); // 直接引入
+  const files: Record<string, any> = import.meta.glob("./*.ts"); // 直接引入
+
   console.log("Plugins-files0:", files);
 
   for (const key in files) {
@@ -95,5 +94,5 @@ export function useGlobalPlugins(
     .use(store)
     .use(GeneralPlugin)
     .component("svg-icon", SvgIcon)
-    .mount("#subvue3-app");
+    .mount("#app");
 }

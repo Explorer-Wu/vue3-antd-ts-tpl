@@ -1,0 +1,32 @@
+@use 'sass:map';
+
+$colors: () !default;
+$--colors: map.deep-merge(
+	(
+		'primary': (
+			'base': #1638b1,
+		),
+		'success': (
+			'base': #5caf50,
+		),
+		'warning': (
+			'base': #ff9800,
+		),
+		'danger': (
+			'base': #d31616,
+		),
+		'error': (
+			'base': #ed3030,
+		),
+		'info': (
+			'base': #2196f3,
+		),
+		'light': (
+			'base': #f8f9fa,
+		),
+	),
+	$colors
+);
+
+// custom dark variables
+// @use './theme.dark.scss';

@@ -9,15 +9,13 @@
     "src/*.vue",
     "src/**/*.vue",
     "src/**/*.md",
-    "mock/**/*.ts",
-    "src/plugins/i18n.bak"
+    "mock/**/*.ts"
   ],
   /*** 不进行类型检查的文件 ***/
   // ts 排除的文件, "exclude"默认情况下会排除node_modules，bower_components，jspm_packages和<outDir>目录
   "exclude": [
     "node_modules",
     "dist",
-    "cypress",
     "src/**/__tests__/*",
     "tests/**/*",
     "coverage",

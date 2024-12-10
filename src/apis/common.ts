@@ -3,6 +3,9 @@ import AxiosFetch from "../index";
 let domain = process.env.VUE_APP_API_BASE_URL;
 
 class Common extends AxiosFetch {
+  axInstance: any;
+  name: string;
+
   constructor(...args) {
     super(...args);
     super.instance;

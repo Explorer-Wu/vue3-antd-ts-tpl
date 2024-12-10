@@ -1,7 +1,9 @@
 import Fetch from "./request.ts";
 
 export default class AxiosFetch {
-  constructor(domain) {
+  axInstance: any;
+
+  constructor(domain: string) {
     this.axInstance = this.ajax(domain);
   }
 

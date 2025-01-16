@@ -1,0 +1,247 @@
+@charset "UTF-8";
+/**--- @声明全局变量  ---**/
+@font-family: Arial, 'Microsoft YaHei';
+@color: #81d3e1;
+
+/*--- Mixin定义样式 ---*/
+/*文本换行的方式*/
+.txt-p-bk() {
+  white-space: pre; //空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签
+  word-wrap: break-word; //在长单词或 URL 地址内部进行换行
+  word-break: keep-all; //只能在半角空格或连字符处换行
+}
+
+.txt-pw-wb() {
+  white-space: pre-wrap; //保留空白符序列，但是正常地进行换行
+  word-wrap: break-word;
+  word-break: break-all; //允许在单词内换行
+}
+
+.txt-pl-wb() {
+  white-space: pre-line; //合并空白符序列，但是保留换行符
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.txt-nb() {
+  white-space: normal; //空格被合并，自动换行。
+  word-wrap: break-word;
+  word-break: break-all;
+}
+//文本不换行
+.txt-nnw() {
+  white-space: nowrap; //文本不会换行，直到遇到 <br> 标签为止
+  word-wrap: normal; //只在允许的断字点换行, 否则单词长度超过一行也不允许拆成两行显示
+}
+//文本不换行，溢出省略
+.txt-nw-ep() {
+  overflow: hidden;
+  .txt-nnw; // .txt-nnw() 混合的类名在被调用的时候加上小括弧 ()和不加上小括弧 ()是一样的效果
+  text-overflow: ellipsis; //显示省略符号来代表被修剪的文本
+}
+//文本不换行，溢出修剪
+.txt-nw-cp() {
+  overflow: hidden;
+  .txt-nnw;
+  text-overflow: clip; //修剪文本
+}
+//Flex 弹性布局, 注: 标准属性放在兼容属性之后, 低版本的兼容性写法放到最后（ps：css向下兼容），否则无效
+.display_flex() {
+  /* 低版本兼容性 */
+  display: -webkit-box; /* 老版本语法: Chrome 4+, Safari 3.1, iOS Safari 3.2+, Safari, iOS, Android browser, older WebKit browsers. */
+  display: -moz-box; /* 老版本语法: Firefox (buggy) */
+  display: -ms-flexbox; /* 混合版本语法: IE 10 */
+  display: box; /* OLD - Android 4.4- */
+
+  display: -webkit-flex; /* 新版本语法: Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+  display: -moz-flex; /* Firefox 18+ */
+  display: flex; /* 新版本语法: Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
+
+  // display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+  // display: -moz-box; /* Firefox 17- */
+  // display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+  // display: -moz-flex; /* Firefox 18+ */
+  // display: -ms-flexbox; /* IE 10 */
+  // display: -ms-flex;
+  // display: flex; /* Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */
+}
+
+// inline-flex 行内元素Flex布局
+.display_inline-flex() {
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: inline-flex;
+
+  /* 低版本兼容性 */
+  display: -webkit-inline-box;
+  display: -moz-inline-box;
+  display: -ms-inline-flexbox;
+}
+
+// Flex 容器属性
+// 函数参数如果有默认，调用时就是通过变量名称，而不是位置
+.flex-flow(@direction: row; @wrap: nowrap; @box: normal) {
+  //flex-direction属性，决定主轴的方向（即项目的排列方向）。 水平方向：row，row-reverse |  垂直方向：column，column-reverse
+  //flex-wrap属性:  nowrap（默认）:不换行 ｜ wrap：换行，第一行在上方 ｜ wrap-reverse：换行，第一行在下方。
+  -webkit-flex-flow: @direction @wrap;
+  -moz-flex-flow: @direction @wrap;
+  -ms-flex-flow: @direction @wrap;
+  flex-flow: @direction @wrap;
+
+  /* 低版本兼容性 */
+  -webkit-box-direction: @box; //normal 以默认方向显示子元素 reverse反方向 inherit继承
+}
+
+//项目在主轴(纵向)上的对齐方式
+// flex-start默认值，左对齐 | flex-end右对齐 | center居中 |
+// space-between两端对齐，项目之间的间隔都相等 | space-around每个项目两侧的间隔相等;
+.justify-content(@content: 'space-between'; @justify: 'justify') {
+  /* 低版本兼容性 */
+  -webkit-box-pack: @justify;
+  -ms-flex-pack: @justify;
+
+  -webkit-justify-content: @content;
+  -moz-justify-content: @content;
+  -ms-justify-content: @content;
+  -o-justify-content: @content;
+  justify-content: @content;
+  //         -webkit-box-pack: center;
+  //   -webkit-justify-content: center;
+  //             -ms-flex-pack: center;
+  //           justify-content: center;
+}
+
+//定义项目在交叉轴(横向)上对齐方式
+// flex-start交叉轴的起点对齐 | flex-end交叉轴的终点对齐 | center交叉轴的中点对齐
+// baseline项目的第一行文字的基线对齐 | stretch默认值，如果项目未设置高度或设为auto，将占满整个容器的高度
+.align-items(@align: stretch) {
+  -webkit-align-items: @align;
+  -moz-align-items: @align;
+  -ms-align-items: @align;
+  align-items: @align;
+
+  /* 低版本兼容性 */
+  -webkit-box-align: @align;
+  -ms-flex-align: @align;
+}
+
+//Flex 项目属性
+.flex-style(@grow: 0; @shrink: 1; @basis: auto) {
+  // flex属性是flex-grow, flex-shrink 和 flex-basis的简写
+  // none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
+  // flex-grow属性定义项目的放大比例。默认为0，即如果存在剩余空间，也不放大 ｜ 1，则它们将等分剩余空间 ｜ 2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍
+  // flex-shrink属性定义了项目的缩小比例。 默认为1，即如果空间不足，该项目将缩小 ｜ 0，其他项目都为1，则空间不足时，前者不缩小。
+  // flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+  -webkit-flex: @arguments;
+  -moz-flex: @arguments;
+  -ms-flex: @arguments;
+  flex: @arguments;
+
+  /* 低版本兼容性 */
+  //box-flex 属性规定框的子元素是否可伸缩其尺寸
+  -webkit-box-flex: @grow; /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: @grow; /* OLD - Firefox 19- */
+}
+//order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+.order(@int: 0) {
+  -ms-flex-order: @int;
+  -webkit-order: @int;
+  order: @int;
+  /* 低版本兼容性 */
+  -webkit-box-ordinal-group: @int; /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-ordinal-group: @int; /* OLD - Firefox 19- */
+}
+// align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。
+.align-self(@self: auto) {
+  // 默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch | flex-start | flex-end | center | baseline | stretch
+  align-self: @self;
+}
+
+.border-radius(
+@tl-radius;
+@tr-radius: null;
+@br-radius: null;
+@bl-radius: null
+) {
+  -webkit-border-radius: @arguments;
+  -moz-border-radius: @arguments;
+  -ms-border-radius: @arguments;
+  border-radius: @arguments;
+}
+
+.size(@width; @height) {
+  width: @width;
+  height: @height;
+}
+
+.display-grid() {
+  display: grid;
+  /* ie兼容 */
+  display: -ms-grid;
+}
+.display-inline-grid() {
+  display: inline-grid;
+  display: -ms-inline-grid;
+}
+.grid-gap(@row: 0px; @column: 0px) {
+  // <grid-row-gap> <grid-column-gap>;
+  grid-gap: @row @column;
+}
+// 设置浏览器自动创建的多余网格的行高。
+.grid-auto-rows(@min: auto; @max: auto) {
+  grid-auto-rows: minmax(@min, @max);
+}
+// 设置浏览器自动创建的多余网格的列宽
+.grid-auto-columns(@min: auto; @max: auto) {
+  grid-auto-columns: minmax(@min, @max);
+}
+// 容器指定了网格布局以后，grid-template-columns属性定义每一列的列宽，grid-template-rows属性定义每一行的行高
+.grid-template-columns(@num: auto-fill; @cols: 1fr) {
+  // @num 重复的次数， auto-fill关键字表示自动填充
+  // @cols 列宽度 33.33%  1fr 2fr minmax(100px, 1fr)
+  // fr 关键字（fraction 的缩写，意为"片段"） 表示比例关系
+  // minmax()函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值。
+  grid-template-columns: repeat(@num, @cols);
+}
+.grid-template-rows(@num: auto-fill; @rows: 1fr) {
+  grid-template-rows: repeat(@num, @rows);
+}
+
+/* item在这个单元格中的位置, justify-items属性设置单元格内容的水平位置（左中右）, align-items属性设置单元格内容的垂直位置（上中下）
+  两个属性的写法和取值相同:
+  start：对齐单元格的起始边缘。
+  end：对齐单元格的结束边缘。
+  center：单元格内部居中。
+  stretch：拉伸，占满单元格的整个宽度（默认值）。
+*/
+.grid-justify-items(@item: center) {
+  justify-items: @item;
+}
+.grid-align-items(@item: center) {
+  align-items: @item;
+}
+// place-items属性是align-items属性和justify-items属性的合并简写形式。
+.grid-place-items(@align: stretch; @justify: stretch) {
+  place-items: @align @justify;
+}
+
+/* justify-content属性是整个内容区域在容器里面的水平位置（左中右），align-content属性是整个内容区域的垂直位置（上中下）
+  两个属性的写法和取值相同:
+  start - 对齐容器的起始边框
+  end - 对齐容器的结束边框
+  center - 容器内部居中
+  stretch - 项目大小没有指定时，拉伸占据整个网格容器
+  space-around - 每个项目两侧的间隔相等。所以，项目之间的间隔比项目与容器边框的间隔大一倍
+  space-between - 项目与项目的间隔相等，项目与容器边框之间没有间隔
+  space-evenly - 项目与项目的间隔相等，项目与容器边框之间也是同样长度的间隔
+*/
+.grid-justify-content(@content: center) {
+  justify-content: @content;
+}
+.grid-align-content(@content: center) {
+  align-content: @content;
+}
+// place-content属性是align-content属性和justify-content属性的合并简写形式。
+.grid-place-content(@align: stretch; @justify: stretch) {
+  place-content: @align @justify;
+}
